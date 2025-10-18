@@ -1,36 +1,16 @@
-# dropbucket
-# ------------------------------------------------------------
-# A robust demultiplexing tool for pooled scRNA-seq datasets.
-# Accurately assigns single cells to donors even under
-# extremely unbalanced pooling conditions or with genetically
-# similar samples.
-# ------------------------------------------------------------
+### dropbucket
+a sensitive demultiplexing tool designed to accurately assign cells to donors in pooled scRNA-seq datasets, even under extremely unbalanced pooling condition and samples with genetically similar genotypes.
 
-# ------------------------------------------------------------
-# Usage
-# ------------------------------------------------------------
-# Run Dropbucket with the required arguments:
-#
-#   python dropbucket.py \
-#     --mtx_path data/matrix.mtx \
-#     --cellbarcode_path data/barcodes.txt \
-#     --k 8 \
-#     --output_dir results/
-#
-# ------------------------------------------------------------
-# ⚙️ Parameters
-# ------------------------------------------------------------
-# | Argument              | Description                              
-# |------------------------|-----------------------------------
-# | --mtx_path             | Path to the input `.mtx` file
-# | --cellbarcode_path     | Path to the cell barcode text file
-# | --k                    | Number of clusters
-# | --output_dir           | Directory to save the output files
-
-# ------------------------------------------------------------
-# Output Files
-# ------------------------------------------------------------
-# The following files will be generated in `--output_dir`:
-#
-# - clusters.csv  → Cluster assignments for each cell
-
+### Usage
+```bash
+   python dropbucket_pipeline.py \
+     --mtx_path dir/mtx_path \
+     --cellbarcode_path dir/barcodes.tsv \
+     --k 8 \
+     --output_dir results
+```
+### Parameters
+ --mtx_path, Path to the `.mtx` file \
+ --cellbarcode_path, Path to the cell barcode text file \
+ --k, Number of clusters \
+ --output_dir, Directory to save the output files
