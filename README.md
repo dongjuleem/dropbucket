@@ -1,5 +1,5 @@
 ### dropbucket
-a sensitive demultiplexing tool designed to accurately assign cells to donors in pooled scRNA-seq datasets, even under extremely unbalanced pooling condition and samples with genetically similar genotypes.
+a robust SNP-based demultiplexing tool designed to accurately assign cells to donors in pooled scRNA-seq datasets, even under extremely unbalanced pooling condition and samples with genetically similar genotypes.
 
 ### Usage
 ```bash
