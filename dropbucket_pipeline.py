@@ -174,6 +174,10 @@ for i, j in combinations(range(random_attempts), 2):
 mean_ari = sum(ari_scores) / len(ari_scores)
 print("The mean of ARI : ", mean_ari)
 
+
+best_labels = np.argmax(best_membership, axis=1)
+ACTUAL_K = best_membership.shape[1]
+
 ##### 4. doublet detection
 def doublet_detection(best_labels, best_membership, singlet_label):
     selected_cells = np.where(singlet_label == 1)[0]
@@ -196,8 +200,8 @@ def doublet_detection(best_labels, best_membership, singlet_label):
     # (1) Singlet distance
     prior_prob = np.mean(selected_best_membership, axis=0)
     prior_prob = np.clip(prior_prob, 0.0001, 1.0)
-    distances = np.empty((NUM_CELL, K), dtype=np.float64)
-    for cluster in range(K):
+    distances = np.empty((NUM_CELL, ACTUAL_K), dtype=np.float64)
+    for cluster in range(ACTUAL_K):
         alpha_c = beta_bino_parameter[cluster, :, 0]
         beta_c = beta_bino_parameter[cluster, :, 1]
         likelihood = betabinom.pmf(alt_counts, total_counts, alpha_c[cols], beta_c[cols])
@@ -207,7 +211,7 @@ def doublet_detection(best_labels, best_membership, singlet_label):
         distances[:, cluster] = sum_per_cell - np.log(prior_prob[cluster])
     singlet_distance = distances[np.arange(NUM_CELL), best_labels]
     # (2) Doublet distance
-    comb_list = list(itertools.combinations(range(K), 2))
+    comb_list = list(itertools.combinations(range(ACTUAL_K), 2))
     doublet_distances = np.empty((NUM_CELL, len(comb_list)), dtype=np.float64)
     for idx, (cluster_a, cluster_b) in enumerate(comb_list):
         alpha_a = beta_bino_parameter[cluster_a, :, 0]
@@ -248,12 +252,19 @@ def is_doublet():
         prev_singlet_label = singlet_label
     return doublet_membership_matrix, singlet_label, doublet_combo, curr
 
-doublet_membership_matrix, singlet_label, doublet_combo, curr = is_doublet()
-print("Doubelt detection curr : ", curr)
-second_col = np.where(singlet_label == 1, best_labels, doublet_combo)
-result_df = pd.DataFrame({
-    'cellbarcode': cellbarcodes.iloc[:, 0],
-    'label': second_col
-})
+if ACTUAL_K == 1:
+    result_df = pd.DataFrame({
+        'cellbarcode': cellbarcodes.iloc[:, 0],
+        'label': np.zeros(len(cellbarcodes), dtype=int)
+    })
+else:
+    doublet_membership_matrix, singlet_label, doublet_combo, curr = is_doublet()
+    print("Doubelt detection curr : ", curr)
+    second_col = np.where(singlet_label == 1, best_labels, doublet_combo)
+    result_df = pd.DataFrame({
+        'cellbarcode': cellbarcodes.iloc[:, 0],
+        'label': second_col
+    })
+
 save_path = os.path.join(output_dir, "result.tsv")
 result_df.to_csv(save_path, sep="\t", index=False, header=True)
