@@ -1,16 +1,37 @@
-### dropbucket
-a robust SNP-based demultiplexing tool designed to accurately assign cells to donors in pooled scRNA-seq datasets, even under extremely unbalanced pooling condition and samples with genetically similar genotypes.
+[![PyPI version](https://badge.fury.io/py/dropbucket.svg)](https://pypi.org/project/dropbucket/)
 
-### Usage
-```bash
-   python dropbucket_pipeline.py \
-     --mtx_path dir/mtx_path \
-     --cellbarcode_path dir/barcodes.tsv \
-     --k 8 \
-     --output_dir results
+## dropbucket
+Robust SNP-based demultiplexing tool designed to accurately assign cells to donors in pooled scRNA-seq, even under extremely unbalanced pooling condition and samples with genetically similar genotypes.
+
+
+## Prerequisites
+dropbucket requires the following external tools
+- FreeBayes
+- Vartrix
+
+
+## Installation
+dropbucket is available through pypi
 ```
-### Parameters
- --mtx_path, Path to the `.mtx` file \
- --cellbarcode_path, Path to the cell barcode text file \
- --k, Number of clusters \
- --output_dir, Directory to save the output files
+pip install dropbucket
+```
+
+
+## Usage
+```
+usage: dropbucket [-h] -r REFERENCE -b BAM -c CELLBARCODE -k CLUSTERS -o OUTPUT_DIR
+
+set parameters for demultiplexing
+
+optional arguments:
+  -h, --help            show this help message and exit
+  -r REFERENCE, --reference REFERENCE
+                        reference fasta file
+  -b BAM, --bam BAM     possorted_genome_bam file
+  -c CELLBARCODE, --cellbarcode CELLBARCODE
+                        cell barcode tsv file
+  -k CLUSTERS, --clusters CLUSTERS
+                        number of clusters
+  -o OUTPUT_DIR, --output_dir OUTPUT_DIR
+                        directory of output file
+```
