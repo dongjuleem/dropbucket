@@ -1,4 +1,5 @@
-[![PyPI version](https://badge.fury.io/py/dropbucket.svg)](https://pypi.org/project/dropbucket/)
+[![PyPI version](https://img.shields.io/pypi/v/dropbucket.svg)](https://pypi.org/project/dropbucket/)
+
 
 ## dropbucket
 Robust SNP-based demultiplexing tool designed to accurately assign cells to donors in pooled scRNA-seq, even under extremely unbalanced pooling condition and samples with genetically similar genotypes.
